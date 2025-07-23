@@ -1,0 +1,377 @@
+/* Global styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Weather Container */
+.weather_container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  overflow: hidden;
+  position: relative; /* Added for ::before to be relative to this container */
+}
+
+/* Overlay for background */
+.weather_container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 0;
+}
+
+/* City Data (seems unused in the provided HTML structure, but keeping for completeness) */
+.city_data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+/* Info Section (contains search bar) */
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Search Bar within Info */
+.info .search_bar {
+  width: 200px; /* Consider using max-width and fluid width for responsiveness */
+  height: 40px;
+  position: relative;
+}
+
+/* Input field within Search Bar */
+.info .search_bar input {
+  width: calc(100% - 45px); /* Adjusted width to make space for button */
+  height: 100%;
+  padding: 0 5px; /* Added padding */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+/* Button within Search Bar */
+.info .search_bar button {
+  width: 40px; /* Fixed width for button */
+  height: 100%;
+  position: absolute; /* Position relative to .search_bar */
+  right: 0; /* Position to the right */
+  top: 0;
+  background-color: #a6da16;
+  color: rgb(28, 111, 219);
+  border: none;
+  border-radius: 0 5px 5px 0; /* Rounded only on the right side */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Button hover effect */
+.info .search_bar button:hover {
+  background-color: #090909;
+}
+
+/* Details Section */
+.details {
+  width: 50%;
+  height: 500px; /* Consider min-height instead of fixed height if content varies */
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(.5px);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  z-index: 1;
+  color: #fff;
+}
+
+/* Time within Details */
+.details .time {
+  font-size: 26px;
+  font-weight: bold;
+  left: 6px;
+  top: 6px;
+  text-align: left;
+  position: absolute;
+}
+
+/* City Details within Details */
+.details .city_details {
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  /* margin-bottom: 2px; */
+  flex-wrap: nowrap; /* Consider 'wrap' for long city names on small screens */
+}
+
+/* Country within Details */
+.details .country {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+/* Type (weather description) within Details */
+.details .type {
+  font-size: 28px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+/* Icon within Details (general, might be overridden by specific icon classes) */
+.details .icon {
+  font-size: 15px;
+  padding: 2px;
+}
+
+/* Temperature within Details */
+.details .temp {
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* Sunrise/Sunset section - Primary focus for responsiveness */
+.details .rise_set {
+  font-size: 18px;
+  text-align: center;
+  position: relative;
+  display: grid;
+  /* Removed grid-auto-columns: minmax(150px, auto); for better fluidity */
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* More flexible grid */
+  gap: 5px;
+  padding: 4px;
+  width: 100%; /* Ensure it takes full available width */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Individual rise/set items */
+.details .rise_set .rise,
+.details .rise_set .set {
+  display: flex; /* Changed to flex for internal alignment */
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  padding: 5px; /* Increased padding slightly */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  min-width: unset; /* Remove fixed min-width if it was present in HTML/inline styles */
+  box-sizing: border-box;
+}
+
+/* Hover effect for rise/set items */
+.details .rise_set .rise:hover,
+.details .rise_set .set:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05); /* Slightly less aggressive scale */
+}
+
+/* Icon containers for sunrise/sunset/moonrise/moonset */
+.sunrise_i, .sunset_i, .moonrise_i, .moonset_i {
+  position: relative; /* Keep relative if needed for internal absolute positioning */
+  /* min-width: 50px; -- Consider removing this if it causes overflow */
+  width: 100%; /* Make icon container fill its space */
+  display: flex; /* Use flex to center image if not absolutely positioned */
+  justify-content: center;
+  align-items: center;
+  height: 40px; /* Give it a defined height */
+}
+
+/* Images within rise/set - Adjust positioning for responsiveness */
+.rise img, .set img {
+  position: static; /* Change to static or relative to be part of flow */
+  max-width: 100%; /* Ensure image scales down */
+  height: auto; /* Maintain aspect ratio */
+  /* Remove fixed left, padding if using flexbox for centering */
+  padding: 0;
+}
+/* If you absolutely need absolute positioning for images, you'll need to re-evaluate their parent's positioning and the image's dimensions more carefully for each breakpoint. */
+
+
+/* Other Details section */
+.other_details {
+  width: 100%;
+  /* height: 100px; -- Consider min-height or auto height */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* More flexible auto-fit */
+  gap: 10px;
+  color: #fff;
+  box-sizing: border-box;
+  padding: 0 20px; /* Add padding to match .details */
+  margin-top: 20px; /* Add space from .details */
+}
+
+/* Individual detail items */
+.other_details .feels_like,
+.other_details .humidity,
+.other_details .wind_speed,
+.other_details .direction,
+.other_details .pressure,
+.other_details .degree {
+  font-size: 18px;
+  text-align: center;
+  margin: 0; /* Reset margin from gap */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  min-width: unset; /* Remove min-width for better fluidity */
+  box-sizing: border-box;
+}
+
+/* Icons within individual detail items */
+.other_details .feels_like .icon,
+.other_details .humidity .icon,
+.other_details .wind_speed .icon,
+.other_details .direction .icon,
+.other_details .pressure .icon,
+.other_details .degree .icon {
+  color: #0a0a0a;
+  font-size: 10px; /* Adjusted for better visibility */
+}
+
+/* Media Queries - Refined for better flow */
+
+@media (max-width : 1200px) {
+  .details {
+    width: 80%;
+    /* height: 550px; -- Consider min-height or auto */
+  }
+  .details .rise_set {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjust minmax for smaller screens */
+  }
+  .other_details {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width : 940px) {
+  .details {
+    width: 90%; /* Increased width to fill more space */
+  }
+}
+
+@media (max-width : 870px) {
+  .details {
+    /* width: 90%; -- Already set at 940px, no need to repeat if same */
+    /* height: 650px; -- Consider min-height or auto */
+  }
+  .details .time {
+    font-size: 20px;
+  }
+  .details .city_details {
+    font-size: 22px;
+    /* margin-top: -150px; -- Re-evaluate this. It pushes content up. */
+  }
+  .details .icon {
+    font-size: 10px;
+  }
+  .other_details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width : 660px) {
+  .details {
+    width: 95%; /* Almost full width */
+    /* height: 700px; -- Consider min-height or auto */
+  }
+  .details .time {
+    font-size: 18px;
+  }
+  .details .city_details {
+    font-size: 20px;
+    /* margin-top: -150px; -- Still here, check if this is intended */
+  }
+  .details .icon {
+    font-size: 8px;
+  }
+  /* The .grid class definition is standalone and should be applied in HTML if used. */
+  /* .grid { display: grid; grid-template-columns: repeat(2, 1fr); } */
+  .other_details {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px; /* Adjusted gap */
+  }
+}
+
+@media (max-width : 550px) {
+  .weather_container {
+    height: auto; /* Allow height to adjust to content */
+    overflow-y: auto; /* Allow vertical scrolling */
+  }
+  .info {
+    padding: 5px 10px;
+  }
+  .details {
+    width: 95%; /* Keep consistent with 660px or adjust */
+    height: auto; /* Allow height to adjust to content */
+    padding: 10px;
+  }
+  .details .time {
+    font-size: 14px;
+    position: static; /* Make it flow normally if absolute positioning is problematic */
+    text-align: center;
+  }
+  .details .city_details {
+    font-size: 22px;
+    margin-top: 0; /* Remove problematic negative margin */
+  }
+  .details .rise_set {
+    display: flex; /* Switch to flexbox for stacking */
+    flex-direction: column;
+    padding: 10px;
+    gap: 5px;
+  }
+  .details .rise_set .rise,
+  .details .rise_set .set {
+    display: flex; /* Ensure individual items are flex containers */
+    flex-direction: row; /* Arrange icon and text horizontally */
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
+    padding: 5px;
+  }
+  .details .rise_set .rise:hover,
+  .details .rise_set .set:hover {
+    transform: scale(1.02); /* Smaller hover effect for mobile */
+  }
+  /* Ensure images are responsive within flex items */
+  .rise img, .set img {
+    width: 30px; /* Smaller fixed size for mobile */
+    height: auto;
+    position: static; /* Ensure they are in flow */
+  }
+}
+
+@media (max-width : 520px) {
+  /* This rule was problematic. If you want to hide a specific grid within rise_set,
+     ensure that 'grid' class is actually applied to that element in HTML.
+     If you want .rise_set to become a single column, the flex-direction: column
+     at 550px already handles that.
+     If you intended to hide the entire .rise_set, use:
+     .details .rise_set { display: none; }
+  */
+}
