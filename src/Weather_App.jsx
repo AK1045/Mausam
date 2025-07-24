@@ -28,7 +28,7 @@ const Weather=()=>{
         const FetchWeather= async () =>{
       try {
         setLoading(true);
-        const response = await axios.get("/api/weather", {
+        const response = await axios.get("/.netlify/functions/weather", {
         params: { city }
         });
 

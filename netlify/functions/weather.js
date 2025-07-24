@@ -1,4 +1,5 @@
 export async function handler(event) {
+    console.log("Weather function triggered:", event.queryStringParameters);
   const { city } = event.queryStringParameters || 'gauribidanur';
 
   if (!city) {
@@ -7,12 +8,14 @@ export async function handler(event) {
       body: JSON.stringify({ error: 'City query parameter is required.' })
     };
   }
+  console.log("Function triggered, city:", city);
 
   const API_KEY = "54812335ad7b5888f2363d0cabdb3d83";
-  const url = `http://api.weatherstack.com/current?access_key=${API_KEY}&query=${encodeURIComponent(city)}&units=m`;
+  const url = `https://api.weatherstack.com/current?access_key=${API_KEY}&query=${encodeURIComponent(city)}&units=m`;
 
   try {
     const response = await import('axios').then(({ default: axios }) => axios.get(url));
+    console.log("Requesting URL:", url);
     return {
       statusCode: 200,
       body: JSON.stringify(response.data),
