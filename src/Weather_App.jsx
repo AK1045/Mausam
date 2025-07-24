@@ -31,23 +31,31 @@ const Weather=()=>{
         const FetchWeather= async () =>{
       try {
         setLoading(true);
+        console.log("fetching");
         const response = await axios.get("/api/weather", {
         params: { city }
         });
+        // const response =await axios.get (api);
 
        const data = response.data;
       if(data && data.location && data.current){
         const {location:{name,country,region,lat,lon,localtime,localtime_epoch,timezone_id},
        current : {observation_time,temperature,weather_icons,weather_descriptions,astro :{sunrise,sunset,moonrise,moonset},wind_speed,wind_degree,wind_dir,pressure,precip,humidity,cloudcover,feelslike,is_day}} = data;
 
-       setWeatherinfo({
-        name,country,region,lat,lon,localtime,time :localtime_epoch,timezone_id,observation_time,temperature,icon :weather_icons[0],type :weather_descriptions[0],sunrise,sunset,moonrise,moonset,wind_speed,
-        wind_degree,wind_dir,pressure,precip,humidity,cloudcover,feelslike,is_day
-       });
-       setSunriseTime(weatherinfo?.sunrise);
-       setSunsetTime(weatherinfo?.sunset);
-       setZone(weatherinfo?.timezone_id);
-       setWeatherType(weatherinfo?.type.toLowerCase());
+       const info = {
+        name, country, region, lat, lon, localtime, time: localtime_epoch,
+        timezone_id, observation_time, temperature, icon: weather_icons[0],
+        type: weather_descriptions[0], sunrise, sunset, moonrise, moonset,
+        wind_speed, wind_degree, wind_dir, pressure, precip, humidity,
+        cloudcover, feelslike, is_day
+        };
+
+        setWeatherinfo(info);
+        setSunriseTime(sunrise);
+        setSunsetTime(sunset);
+        setZone(timezone_id);
+        setWeatherType(weather_descriptions[0]?.toLowerCase());
+
     }
         setLoading(false);  
     } catch (error) {
@@ -57,6 +65,7 @@ const Weather=()=>{
       }
     }
     FetchWeather();
+    console.log("Component mounted");
     },[city])
 
     const background = {
@@ -169,10 +178,6 @@ const Weather=()=>{
     const backgroundImage = background[image] || background.default;
     //timing
     useEffect(()=>{
-        // if(!weatherinfo || !weatherinfo?.timezone_id) {
-        //     setTime('N/A');
-        //     return;
-        // }
         if(intervalRef.current) clearInterval(intervalRef.current);
         const cityZone = weatherinfo?.timeZone_id;
         const updateTime=()=>{

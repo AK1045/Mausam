@@ -1,4 +1,5 @@
 import './Weather_icons.css';
+import React from 'react';
 
 // SunShower.jsx
 export const SunShower = () => (
