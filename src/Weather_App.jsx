@@ -24,14 +24,14 @@ const Weather=()=>{
     const inputRef = useRef(null);
     const intervalRef = useRef();
 
-    const apikey = import.meta.env.VITE_WEATHERSTACK;
-    const api =`http://api.weatherstack.com/current?access_key=bae7a2d6f5b35e276a0740129a503d8c&query=${city}&units=m`;
+    // const apikey = import.meta.env.VITE_WEATHERSTACK;
+    // const api =`http://api.weatherstack.com/current?access_key=bae7a2d6f5b35e276a0740129a503d8c&query=${city}&units=m`;
 
     useEffect(()=>{
         const FetchWeather= async () =>{
       try {
         setLoading(true);
-        const response = await axios.get("/.netlify/functions/weather", {
+        const response = await axios.get("/api/weather", {
         params: { city }
         });
 
