@@ -8,7 +8,7 @@ export async function handler(event) {
     };
   }
 
-  const API_KEY = "619734e245c6796d8230f0fa4de45bea";
+  const API_KEY = "54812335ad7b5888f2363d0cabdb3d83";
   const url = `http://api.weatherstack.com/current?access_key=${API_KEY}&query=${encodeURIComponent(city)}&units=m`;
 
   try {
@@ -18,7 +18,12 @@ export async function handler(event) {
       body: JSON.stringify(response.data),
       headers: { 'Content-Type': 'application/json' }
     };
-  } catch (err) {
-   console.log('Failed to fetch the data ',err.message);
-  }
+ } catch (err) {
+  console.error("Weather function failed:", err.response?.data || err.message);
+  return {
+    statusCode: 500,
+    body: JSON.stringify({ error: "Unable to fetch weather data at the moment. Please try again later." })
+  };
+}
+
 }

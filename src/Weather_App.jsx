@@ -24,18 +24,13 @@ const Weather=()=>{
     const inputRef = useRef(null);
     const intervalRef = useRef();
 
-    // const apikey = import.meta.env.VITE_WEATHERSTACK;
-    // const api =`http://api.weatherstack.com/current?access_key=bae7a2d6f5b35e276a0740129a503d8c&query=${city}&units=m`;
-
     useEffect(()=>{
         const FetchWeather= async () =>{
       try {
         setLoading(true);
-        console.log("fetching");
         const response = await axios.get("/api/weather", {
         params: { city }
         });
-        // const response =await axios.get (api);
 
        const data = response.data;
       if(data && data.location && data.current){
@@ -65,7 +60,6 @@ const Weather=()=>{
       }
     }
     FetchWeather();
-    console.log("Component mounted");
     },[city])
 
     const background = {
@@ -248,7 +242,7 @@ const Weather=()=>{
             dataStroke:"data:ldbar/res,gradient(0,1,#9df,#9fd,#df9,#fd9)",
             dataPath:"M10 20Q20 15 30 20Q40 25 50 20Q60 15 70 20Q80 25 90 20",zIndex : 3}}
             ></div>}
-        {error && <p>{error}</p>}
+        {error && <p></p>}
 
         {weatherinfo && (
             <div className="details">
