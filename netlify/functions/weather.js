@@ -1,3 +1,4 @@
+import axios from "axios";
 export async function handler(event) {
     console.log("Weather function triggered:", event.queryStringParameters);
   const { city } = event.queryStringParameters || 'gauribidanur';
